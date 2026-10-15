@@ -42,7 +42,7 @@ def make_report(state, now, new, pending, due, baseline, errors, ai):
              'Režim: '+('první kontrola — výchozí přehled' if baseline else 'porovnání s předchozí kontrolou'),
              f'AI: {ai.provider}; volání v tomto běhu: {ai.calls}.', '', '## Stav zdrojů', '']
     for s in state['sources'].values():
-        lines.append(f'- {safe(s["name"])}: {safe(s["status"])}; položek: {s.get("count",0)}; '+safe(s.get('error','')))
+        lines.append(f'- {safe(s["name"])}: {safe(s["status"])}; položek: {s.get("count",0)}; k analýze/kontrole: {s.get("review_count",0)}; '+safe(s.get('error','')))
     lines += ['', 'Výpadek zdroje nebo neúplná analýza neznamenají, že nejsou změny.', '', '## Nové a změněné nálezy', '']
     for key in new:
         n=state['notices'][key];a=n['analysis']
@@ -97,7 +97,7 @@ def run(config, state, web_factory=Web, ai=None, now=None):
     new, errors = [], []
     for source in config:
         sid=source['id']; web=web_factory(source['allowed_hosts'])
-        stats={'name':source['name'],'checked_at':now.isoformat(),'status':'ok','count':0}
+        stats={'name':source['name'],'checked_at':now.isoformat(),'status':'ok','count':0,'review_count':0}
         try:
             notices = discover(source,web);stats['count']=len(notices)
             print(f'{sid}: nalezeno {len(notices)} položek.',flush=True)
@@ -144,8 +144,10 @@ def run(config, state, web_factory=Web, ai=None, now=None):
                     entry['status']='pending';entry['error']=str(e)
                     # No reminder from an obsolete/unverified analysis.
                     entry.pop('analysis',None)
-                    if not isinstance(e,AnalysisError):
+                    if isinstance(e,(FetchError,SourceError)):
                         stats['status']='partial';errors.append(sid+':'+str(e))
+                    else:
+                        stats['review_count']+=1
                 state['notices'][key]=entry
         except (FetchError,SourceError,ValueError) as e:
             stats.update(status='failed',error=str(e));errors.append(sid+':'+str(e))

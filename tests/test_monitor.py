@@ -150,3 +150,59 @@ class Tests(unittest.TestCase):
         with patch.dict('os.environ',{'AI_API_KEY':'secret-example','AI_PROVIDER':'gemini'}),patch('app.analysis.validate_url'),patch('httpx.post',return_value=httpx.Response(429,text='secret-example')):
             with self.assertRaises(AnalysisError) as e:AI().analyze(DOCS)
             self.assertNotIn('secret-example',str(e.exception))
+
+class RecoveryTests(unittest.TestCase):
+    def test_failed_delivery_is_retried_next_run(self):
+        from zoneinfo import ZoneInfo
+        state={'schema':1,'notices':{},'sources':{},'notified':[],'baseline_complete':True}
+        now=datetime(2026,11,1,8,tzinfo=ZoneInfo('Europe/Prague'))
+        with patch('time.sleep'):
+            first,_,notification,_=run([SOURCE],state,FakeWeb,FakeAI(),now)
+            second,report,retry,_=run([SOURCE],first,FakeWeb,FakeAI(),now)
+        self.assertTrue(any(i.startswith('event:') for i in notification['ids']))
+        self.assertEqual(notification['ids'],retry['ids'])
+        self.assertIn('Oznámeno projednání.',report)
+
+    def test_openai_default_url_with_empty_setting(self):
+        response={'choices':[{'message':{'content':json.dumps(RESULT)}}]}
+        with patch.dict('os.environ',{'AI_API_KEY':'key','AI_PROVIDER':'openai','AI_MODEL':'test','AI_BASE_URL':''}),patch('app.analysis.validate_url'),patch('httpx.post',return_value=httpx.Response(200,json=response)) as post:
+            self.assertTrue(AI().analyze(DOCS)['relevant'])
+            self.assertEqual(post.call_args.args[0],'https://api.openai.com/v1/chat/completions')
+
+    def test_changed_document_pending_cancels_old_reminder(self):
+        from zoneinfo import ZoneInfo
+        now=datetime(2026,11,13,8,tzinfo=ZoneInfo('Europe/Prague'))
+        state={'schema':1,'notices':{},'sources':{},'notified':[],'baseline_complete':True}
+        class Changed(FakeWeb):data={**FakeWeb.data,PDF:pdf(TEXT+' changed')}
+        with patch('time.sleep'):
+            first,_,_,_=run([SOURCE],state,FakeWeb,FakeAI(),now)
+            with patch.dict('os.environ',{'AI_API_KEY':''}):
+                second,_,notification,_=run([SOURCE],first,Changed,AI(),now)
+        self.assertNotIn('analysis',second['notices']['test:123'])
+        self.assertFalse(any(i.startswith('reminder:') for i in notification['ids']))
+
+class NetworkRetryTests(unittest.TestCase):
+    def test_transient_503_retried(self):
+        from app.net import Web
+        calls=[]
+        def handler(request):
+            calls.append(request)
+            return httpx.Response(503,headers={'Retry-After':'1'}) if len(calls)==1 else httpx.Response(200,content=b'PDF bytes')
+        web=Web(['www.example.com']);web.client.close();web.client=httpx.Client(transport=httpx.MockTransport(handler))
+        try:
+            with patch('app.net.validate_url'),patch('time.sleep'):
+                self.assertEqual(web.get('https://www.example.com/file.pdf'),b'PDF bytes')
+            self.assertEqual(len(calls),2)
+        finally:web.close()
+
+    def test_permanent_403_not_retried(self):
+        from app.net import Web
+        calls=[]
+        def handler(request):
+            calls.append(request);return httpx.Response(403)
+        web=Web(['www.example.com']);web.client.close();web.client=httpx.Client(transport=httpx.MockTransport(handler))
+        try:
+            with patch('app.net.validate_url'):
+                with self.assertRaises(FetchError):web.get('https://www.example.com/file.pdf')
+            self.assertEqual(len(calls),1)
+        finally:web.close()

@@ -2,12 +2,16 @@
 import ipaddress
 import os
 import socket
+import time
 from functools import lru_cache
 from urllib.parse import urljoin, urlsplit
 import httpx
 
 class FetchError(Exception):
-    pass
+    def __init__(self, message, retryable=False, retry_after=1):
+        super().__init__(message)
+        self.retryable=retryable
+        self.retry_after=retry_after
 
 @lru_cache(maxsize=256)
 def resolve_addresses(host):
@@ -50,6 +54,15 @@ class Web:
         self.client.close()
 
     def get(self, url, limit=20_000_000):
+        for attempt in range(3):
+            try:
+                return self._get_once(url,limit)
+            except FetchError as e:
+                if not e.retryable or attempt==2:
+                    raise
+                time.sleep(max(2**attempt,e.retry_after))
+
+    def _get_once(self, url, limit):
         for _ in range(6):
             validate_url(url, self.allowed_hosts)
             try:
@@ -58,7 +71,12 @@ class Web:
                         url = urljoin(url, r.headers['location'])
                         continue
                     if r.status_code != 200:
-                        raise FetchError(f'HTTP {r.status_code} od {urlsplit(url).hostname}')
+                        try:
+                            retry_after=min(10,max(1,int(r.headers.get('Retry-After','1'))))
+                        except ValueError:
+                            retry_after=2
+                        raise FetchError(f'HTTP {r.status_code} od {urlsplit(url).hostname}',
+                                         r.status_code in {408,429,500,502,503,504},retry_after)
                     parts, size = [], 0
                     for chunk in r.iter_bytes():
                         size += len(chunk)
@@ -67,5 +85,5 @@ class Web:
                         parts.append(chunk)
                     return b''.join(parts)
             except httpx.HTTPError as e:
-                raise FetchError('Síťová chyba: ' + type(e).__name__) from e
+                raise FetchError('Síťová chyba: ' + type(e).__name__,retryable=True) from e
         raise FetchError('Příliš mnoho přesměrování.')
