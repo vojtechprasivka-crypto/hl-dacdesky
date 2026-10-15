@@ -1,13 +1,13 @@
 # Monitoring úředních desek
 
-Kontrola: 2026-10-15T09:15+02:00
+Kontrola: 2026-10-15T09:18+02:00
 
-Režim: první kontrola — výchozí přehled
+Režim: porovnání s předchozí kontrolou
 AI: gemini; volání v tomto běhu: 0.
 
 ## Stav zdrojů
 
-- Chotyně: partial; položek: 53; 
+- Chotyně: ok; položek: 53; k analýze/kontrole: 15; 
 
 Výpadek zdroje nebo neúplná analýza neznamenají, že nejsou změny.
 
@@ -33,7 +33,8 @@ Výpadek zdroje nebo neúplná analýza neznamenají, že nejsou změny.
 - [Oznámení o vyhlášení revize katastru nemovitostí - katastrální území Chotyně](https://www.chotyne.cz/urad/uredni-deska-1/oznameni-o-vyhlaseni-revize-katastru-nemovitosti-katastralni-uzemi-chotyne-1352.html?kshow=4): Nestandardně velká stránka PDF.
   - [Původní příloha](https://www.chotyne.cz/e_download.php?file=/data/uredni_deska/obsah714_1.pdf&original=img20250806_15363843.pdf)
   - [Původní příloha](https://www.chotyne.cz/e_download.php?file=/data/uredni_deska/obsah714_2.pdf&original=graficky_prehled.pdf)
-- [Veřejná vyhláška - oznámení o vydání opatření obecné povahy Změna č.4 Zásad územního rozvoje Libereckého kraje](https://www.chotyne.cz/urad/uredni-deska-1/verejna-vyhlaska-oznameni-o-vydani-opatreni-obecne-povahy-zmena-c4-zasad-uzemniho-rozvoje-libereckeho-kraje-1423.html?show=1&kshow=4): Síťová chyba: RemoteProtocolError
+- [Veřejná vyhláška - oznámení o vydání opatření obecné povahy Změna č.4 Zásad územního rozvoje Libereckého kraje](https://www.chotyne.cz/urad/uredni-deska-1/verejna-vyhlaska-oznameni-o-vydani-opatreni-obecne-povahy-zmena-c4-zasad-uzemniho-rozvoje-libereckeho-kraje-1423.html?show=1&kshow=4): Čeká na AI: není nastaven AI_API_KEY.
+  - [Původní příloha](https://www.chotyne.cz/e_download.php?file=/data/uredni_deska/obsah784_2.pdf&original=Pril1_54390_2026_Z4ZURLK_vyhlaska_vydani.pdf)
 - [Dražební vyhláška - dražba nemovité věci st.p. 35 k.ú. Grabštejn](https://www.chotyne.cz/urad/uredni-deska-1/drazebni-vyhlaska-drazba-nemovite-veci-stp-35-ku-grabstejn-1419.html?show=1&kshow=4): Čeká na AI: není nastaven AI_API_KEY.
   - [Původní příloha](https://www.chotyne.cz/e_download.php?file=/data/uredni_deska/obsah780_1.pdf&original=Dra%C5%BEebn%C3%AD%20vyhl%C3%A1%C5%A1ka.pdf)
 - [Veřejná vyhláška - stanovení přechodné úpravy provozu na pozemní komunikaci - opěrná zeď podél komunikace III/2711 Chotyně u č.p. 7 ( vedle lávky u sokolovny )](https://www.chotyne.cz/urad/uredni-deska-1/verejna-vyhlaska-stanoveni-prechodne-upravy-provozu-na-pozemni-komunikaci-operna-zed-podel-komunikace-iii-2711-chotyne-u-cp-7-vedle-lavky-u-sokolovny-1413.html?show=1&kshow=4): Stránku nelze spolehlivě přečíst.
