@@ -79,3 +79,22 @@ class GitHubTests(unittest.TestCase):
                 with self.assertRaises(GitHubError):api.notify(path,notification)
             self.assertEqual(json.loads(path.read_text())['notified'],[])
         api.client.close()
+
+class LargeStateTests(unittest.TestCase):
+    def test_large_content_falls_back_to_git_blob(self):
+        import base64
+        data={'schema':1,'notices':{},'sources':{},'notified':[]}
+        calls=[]
+        with patch.dict(os.environ,{'GITHUB_TOKEN':'example','GITHUB_REPOSITORY':'owner/repo'}):api=GitHub()
+        def fake(method,path,body=None,missing=False):
+            calls.append(path)
+            if path=='git/commits/head':return {'tree':{'sha':'tree'}}
+            if path.startswith('contents/'):return {'encoding':'none','sha':'large-blob'}
+            if path=='git/blobs/large-blob':return {'encoding':'base64','content':base64.b64encode(json.dumps(data).encode()).decode()}
+            raise AssertionError(path)
+        try:
+            with tempfile.TemporaryDirectory() as tmp,patch.object(api,'head',return_value='head'),patch.object(api,'call',side_effect=fake):
+                path=Path(tmp)/'state.json';api.load(path)
+                self.assertEqual(json.loads(path.read_text()),data)
+                self.assertIn('git/blobs/large-blob',calls)
+        finally:api.client.close()

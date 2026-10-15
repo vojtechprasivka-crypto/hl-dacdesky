@@ -41,7 +41,9 @@ class GitHub:
         if head:
             commit=self.call('GET','git/commits/'+head);meta['tree']=commit['tree']['sha']
             obj=self.call('GET','contents/state/state.json?ref='+head)
-            if obj['encoding']!='base64':
+            if obj.get('encoding')!='base64':
+                obj=self.call('GET','git/blobs/'+obj['sha'])
+            if obj.get('encoding')!='base64':
                 raise GitHubError('Stav má nepodporované kódování.')
             path.parent.mkdir(parents=True,exist_ok=True)
             path.write_bytes(base64.b64decode(obj['content']))
