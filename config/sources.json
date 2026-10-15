@@ -1,0 +1,10 @@
+[
+  {
+    "id": "chotyne",
+    "name": "Chotyně",
+    "url": "https://www.chotyne.cz/urad/uredni-deska-1/",
+    "lists": ["https://www.chotyne.cz/urad/uredni-deska-1/", "https://www.chotyne.cz/urad/uredni-deska-1/?show=1"],
+    "allowed_hosts": ["www.chotyne.cz"],
+    "adapter": "galileo"
+  }
+]
