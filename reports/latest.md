@@ -1,6 +1,6 @@
 # Monitoring úředních desek
 
-Kontrola: 2026-10-19T12:47+02:00
+Kontrola: 2026-10-20T12:05+02:00
 
 Režim: porovnání s předchozí kontrolou
 AI: gemini; volání v tomto běhu: 0.
