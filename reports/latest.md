@@ -1,6 +1,6 @@
 # Monitoring úředních desek
 
-Kontrola: 2026-10-27T11:36+01:00
+Kontrola: 2026-10-28T12:21+01:00
 
 Režim: porovnání s předchozí kontrolou
 AI: gemini; volání v tomto běhu: 0.
@@ -23,7 +23,7 @@ Výpadek zdroje nebo neúplná analýza neznamenají, že nejsou změny.
 
 - [Aukční vyhláška](https://www.chotyne.cz/urad/uredni-deska-1/aukcni-vyhlaska-1428.html?kshow=4): Čeká na AI: není nastaven AI_API_KEY.
   - [Původní příloha](https://www.chotyne.cz/e_download.php?file=/data/uredni_deska/obsah789_1.pdf&original=Aukcni_vyhlaska_-_k.u._Chotyne.pdf)
-- [Zápis o výsledku voleb do zastupitelstva obce Chotyně a výsledky voleb do Senátu 2026 – 1. kolo](https://www.chotyne.cz/urad/uredni-deska-1/zapis-o-vysledku-voleb-do-zastupitelstva-obce-chotyne-a-vysledky-voleb-do-senatu-2026-1-kolo-1427.html?kshow=4): Stránku nelze spolehlivě přečíst.
+- [Zápis o výsledku voleb do zastupitelstva obce Chotyně a výsledky voleb do Senátu 2026 – 1. kolo](https://www.chotyne.cz/urad/uredni-deska-1/zapis-o-vysledku-voleb-do-zastupitelstva-obce-chotyne-a-vysledky-voleb-do-senatu-2026-1-kolo-1427.html?show=1&kshow=4): Stránku nelze spolehlivě přečíst.
   - [Původní příloha](https://www.chotyne.cz/e_download.php?file=/data/uredni_deska/obsah788_1.pdf&original=Volby_Chotyn%C4%9B_v%C3%BDsledky.pdf)
   - [Původní příloha](https://www.chotyne.cz/e_download.php?file=/data/uredni_deska/obsah788_2.pdf&original=Sen%C3%A1t%201.kolo.pdf)
 - [3. změna rozpočtu v roce 2026](https://www.chotyne.cz/urad/uredni-deska-1/3-zmena-rozpoctu-v-roce-2026-1425.html?kshow=4): Čeká na AI: není nastaven AI_API_KEY.
