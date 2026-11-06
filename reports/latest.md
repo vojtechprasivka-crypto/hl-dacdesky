@@ -1,13 +1,13 @@
 # Monitoring úředních desek
 
-Kontrola: 2026-11-05T14:13+01:00
+Kontrola: 2026-11-06T13:58+01:00
 
 Režim: porovnání s předchozí kontrolou
 AI: gemini; volání v tomto běhu: 0.
 
 ## Stav zdrojů
 
-- Chotyně: ok; položek: 56; k analýze/kontrole: 15; 
+- Chotyně: ok; položek: 57; k analýze/kontrole: 15; 
 
 Výpadek zdroje nebo neúplná analýza neznamenají, že nejsou změny.
 
