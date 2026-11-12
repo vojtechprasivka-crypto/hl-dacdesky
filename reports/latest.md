@@ -1,6 +1,6 @@
 # Monitoring úředních desek
 
-Kontrola: 2026-11-11T13:44+01:00
+Kontrola: 2026-11-12T14:47+01:00
 
 Režim: porovnání s předchozí kontrolou
 AI: gemini; volání v tomto běhu: 0.
@@ -21,7 +21,7 @@ Výpadek zdroje nebo neúplná analýza neznamenají, že nejsou změny.
 
 ## Čeká na analýzu / ruční kontrolu
 
-- [Aukční vyhláška](https://www.chotyne.cz/urad/uredni-deska-1/aukcni-vyhlaska-1428.html?kshow=4): Čeká na AI: není nastaven AI_API_KEY.
+- [Aukční vyhláška](https://www.chotyne.cz/urad/uredni-deska-1/aukcni-vyhlaska-1428.html?show=1&kshow=4): Čeká na AI: není nastaven AI_API_KEY.
   - [Původní příloha](https://www.chotyne.cz/e_download.php?file=/data/uredni_deska/obsah789_1.pdf&original=Aukcni_vyhlaska_-_k.u._Chotyne.pdf)
 - [Zápis o výsledku voleb do zastupitelstva obce Chotyně a výsledky voleb do Senátu 2026 – 1. kolo](https://www.chotyne.cz/urad/uredni-deska-1/zapis-o-vysledku-voleb-do-zastupitelstva-obce-chotyne-a-vysledky-voleb-do-senatu-2026-1-kolo-1427.html?show=1&kshow=4): Stránku nelze spolehlivě přečíst.
   - [Původní příloha](https://www.chotyne.cz/e_download.php?file=/data/uredni_deska/obsah788_1.pdf&original=Volby_Chotyn%C4%9B_v%C3%BDsledky.pdf)
